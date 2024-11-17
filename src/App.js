@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
 import ActionBox from './ActionBox';
 function App() {
@@ -10,7 +10,7 @@ function App() {
           Edit <code>src/App.js</code> and save to reload.
         </p>
       </header> */}
-      <ActionBox name="Melee" />
+      <ActionBox name="Melee Attack" />
     </div>
   );
 }
