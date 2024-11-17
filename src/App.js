@@ -11,6 +11,8 @@ function App() {
         </p>
       </header> */}
       <ActionBox name="Melee Attack" />
+      <ActionBox name="Ranged Attack" />
+      <ActionBox name="Attack" />
     </div>
   );
 }

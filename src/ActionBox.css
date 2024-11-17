@@ -17,4 +17,11 @@
 .action-box-name {
     margin-left: 10px;
     margin-right: 10px;
+    min-width: 130px;
+}
+
+.action-box-roll-result {
+    margin-left: 10px;
+    margin-right: 10px;
+    min-width: 30px;
 }
