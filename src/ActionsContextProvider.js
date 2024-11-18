@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState } from 'react';
 import actionsFromFile from './actions.json';
 
 export const ActionsContext = createContext(null);
@@ -13,10 +13,16 @@ const processActions = () => {
     return processActions;
 }
 
+const extractCategories = () => {
+    console.log("Extracting categories");
+    return actionsFromFile.allActions.map(category => category.name)
+}
+
 export const ActionsContextProvider = ({ children }) => {
 
     const [actions, setActions] = useState(processActions); // eventually we will want to process it a bit before setting as default
         // Fascinating that you can't do processActions(actionsFromFile) inside useState() as it will try to reprocess it on every state change. it considers a new reference each time...?
+    const [categories, _] = useState(extractCategories);
 
     const handleRoll = (rolledName) => {
         console.log("ROLLIn")
@@ -34,7 +40,7 @@ export const ActionsContextProvider = ({ children }) => {
       };
 
     return (
-        <ActionsContext.Provider value={{ actions, handleRoll }}>
+        <ActionsContext.Provider value={{ actions, categories, handleRoll }}>
             {children}
         </ActionsContext.Provider>
     );

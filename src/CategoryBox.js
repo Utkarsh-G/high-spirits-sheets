@@ -3,31 +3,31 @@ import './CategoryBox.css';
 import { ActionsContext } from './ActionsContextProvider';
 import { useContext, useState, useEffect } from 'react';
 
-function CategoryBox() {
+function CategoryBox({name: categoryName}) {
     const {actions: ctxActions, handleRoll: ctxHandleRoll} = useContext(ActionsContext);
     
-    const [attacks, setAttacks] = useState([])
+    const [actions, setActions] = useState([])
 
     useEffect(()=>{
-        setAttacks(ctxActions.allActions.find(category => category.name === "Attack").actions)
-        console.log("Attacks set in category")
+        setActions(ctxActions.allActions.find(category => category.name === categoryName).actions)
+        console.log("Initial Actions set in category")
     }, [])
     useEffect(()=>{
-        setAttacks(ctxActions.allActions.find(category => category.name === "Attack").actions)
-        console.log("Attacks set in category")
+        setActions(ctxActions.allActions.find(category => category.name === categoryName).actions)
+        console.log("Actions set in category")
     }, [ctxActions])
 
 
     return (
         <div className="category-box">
-            <div className="category-box-name">Attacks</div>
+            <div className="category-box-name">{categoryName}</div>
 
-            {attacks.map(attack =>(
+            {actions.map(action =>(
                 <ActionBox 
-                key={attack.name}
-                name={attack.name} 
-                rollResult={attack.roll}
-                onRoll={() => ctxHandleRoll(attack.name)}
+                key={action.name}
+                name={action.name} 
+                rollResult={action.roll}
+                onRoll={() => ctxHandleRoll(action.name)}
             />
             ))}
 
