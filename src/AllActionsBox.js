@@ -1,10 +1,10 @@
 import './AllActionsBox.css';
 import CategoryBox from './CategoryBox';
 
-function AllActionsBox({actions, handleRoll}) {
+function AllActionsBox() {
     return (
         <div className="all-actions-box">
-            <CategoryBox actions={actions} handleRoll={handleRoll} />
+            <CategoryBox />
         </div>
     );
 }

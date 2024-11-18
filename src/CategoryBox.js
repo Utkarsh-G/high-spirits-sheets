@@ -3,7 +3,7 @@ import './CategoryBox.css';
 import { ActionsContext } from './ActionsContextProvider';
 import { useContext, useState, useEffect } from 'react';
 
-function CategoryBox({ actions: propActions, handleRoll: propHandleRoll}) {
+function CategoryBox() {
     const {actions: ctxActions, handleRoll: ctxHandleRoll} = useContext(ActionsContext);
     
     const [attacks, setAttacks] = useState([])
