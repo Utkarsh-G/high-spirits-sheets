@@ -11,7 +11,7 @@ function AllActionsBox() {
         <div className="all-actions-box">
             {
                 categories.map(category => (
-                    <CategoryBox name={category} />
+                    <CategoryBox key={category} name={category} />
                 ))
             }        
         </div>
