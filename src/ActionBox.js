@@ -2,14 +2,9 @@ import './ActionBox.css';
 import { useState } from 'react';
 import d20 from './d20.png';
 
-function ActionBox({name}) {
+function ActionBox({name, rollResult, onRoll}) {
     const [assured, setAssured] = useState(false);
     const [capped, setCapped] = useState(false);
-    const [rollResult, setRollResult] = useState(0);
-
-    const onRoll = () => {
-        setRollResult(Math.floor(Math.random() * 20) + 1);
-    }
 
     return (
         <div className="action-box">
