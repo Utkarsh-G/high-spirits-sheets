@@ -25,7 +25,7 @@ export const ActionsContextProvider = ({ children }) => {
           name: category.name,
           actions: category.actions.map(action => ({
             ...action,
-            roll: action.name === rolledName ? Math.floor(Math.random() * 20) + 1 : action.roll
+            roll: action.name === rolledName ? Math.floor(Math.random() * 20) + 1 : 0
           }))
         }));
         console.log("New rolls: ");

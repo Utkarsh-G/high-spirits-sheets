@@ -11,7 +11,7 @@ function ActionBox({name, rollResult, onRoll}) {
             <div className="action-box-status">{assured ? "Assured" : ""} {capped ? "Capped" : ""}</div>
             <div className="action-box-name">{name}</div>
             <div className="action-box-roll"><img id="d20" onClick={onRoll} src={d20} alt="d20" /></div>
-            <div className="action-box-roll-result">{rollResult/*rollResult > 0 ? rollResult : ""*/}</div>
+            <div className="action-box-roll-result">{rollResult > 0 ? rollResult : ""}</div>
         </div>
     );
 }
