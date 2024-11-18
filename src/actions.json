@@ -1,173 +1,230 @@
 {
-    "Attack": {
-        "Melee Attack": {
-            "rollable": true,
-            "module": "base",
-            "actionCost": 1
+    "allActions": [
+        {
+            "name": "Attack",
+            "actions": [
+                {
+                    "name": "Melee Attack",
+                    "rollable": true,
+                    "module": "base",
+                    "actionCost": 1
+                },
+                {
+                    "name": "Ranged Attack", 
+                    "rollable": true,
+                    "module": "base",
+                    "actionCost": 1
+                }
+            ]
         },
-        "Ranged Attack": {
-            "rollable": true,
-            "module": "base",
-            "actionCost": 1
+        {
+            "name": "Control",
+            "actions": [
+                {
+                    "name": "Hamper Movement",
+                    "rollable": true,
+                    "module": "base",
+                    "actionCost": 1
+                },
+                {
+                    "name": "Control Zone",
+                    "rollable": true,
+                    "module": "base",
+                    "actionCost": 1
+                },
+                {
+                    "name": "Weaken",
+                    "rollable": true,
+                    "module": "base",
+                    "actionCost": 1
+                },
+                {
+                    "name": "Force Move",
+                    "rollable": true,
+                    "module": "base",
+                    "actionCost": 1
+                }
+            ]
+        },
+        {
+            "name": "Move",
+            "actions": [
+                {
+                    "name": "Dash",
+                    "rollable": false,
+                    "module": "base",
+                    "actionCost": 1
+                },
+                {
+                    "name": "Negotiate Terrain",
+                    "rollable": true,
+                    "module": "base",
+                    "actionCost": 1
+                },
+                {
+                    "name": "Carefully Cross",
+                    "rollable": true,
+                    "module": "base",
+                    "actionCost": 1
+                },
+                {
+                    "name": "Climb",
+                    "rollable": true,
+                    "module": "base",
+                    "actionCost": 1
+                },
+                {
+                    "name": "Launch",
+                    "rollable": true,
+                    "module": "base",
+                    "actionCost": 1
+                }
+            ]
+        },
+        {
+            "name": "Incite",
+            "actions": [
+                {
+                    "name": "Frighten",
+                    "rollable": true,
+                    "module": "base",
+                    "actionCost": 1
+                },
+                {
+                    "name": "Distract",
+                    "rollable": true,
+                    "module": "base",
+                    "actionCost": 1
+                },
+                {
+                    "name": "Enrage",
+                    "rollable": true,
+                    "module": "base",
+                    "actionCost": 1
+                },
+                {
+                    "name": "Placate",
+                    "rollable": true,
+                    "module": "base",
+                    "actionCost": 1
+                },
+                {
+                    "name": "Inspire",
+                    "rollable": true,
+                    "module": "base",
+                    "actionCost": 1
+                }
+            ]
+        },
+        {
+            "name": "Self-Control",
+            "actions": [
+                {
+                    "name": "Shake it off",
+                    "rollable": true,
+                    "module": "base",
+                    "actionCost": 1
+                },
+                {
+                    "name": "Rally",
+                    "rollable": true,
+                    "module": "base",
+                    "actionCost": 1
+                },
+                {
+                    "name": "Defend",
+                    "rollable": false,
+                    "module": "base",
+                    "actionCost": 1
+                },
+                {
+                    "name": "Change",
+                    "rollable": false,
+                    "module": "base",
+                    "actionCost": 1
+                }
+            ]
+        },
+        {
+            "name": "Perceive",
+            "actions": [
+                {
+                    "name": "Observe",
+                    "rollable": true,
+                    "module": "base",
+                    "actionCost": 1
+                },
+                {
+                    "name": "Use Senses",
+                    "rollable": true,
+                    "module": "base",
+                    "actionCost": 1
+                },
+                {
+                    "name": "Touch",
+                    "rollable": true,
+                    "module": "base",
+                    "actionCost": 1
+                }
+            ]
+        },
+        {
+            "name": "Interact",
+            "actions": [
+                {
+                    "name": "Get Item",
+                    "rollable": false,
+                    "module": "base",
+                    "actionCost": 1
+                },
+                {
+                    "name": "Use Item",
+                    "rollable": true,
+                    "module": "base",
+                    "actionCost": 1
+                },
+                {
+                    "name": "Put Away Item",
+                    "rollable": false,
+                    "module": "base",
+                    "actionCost": 1
+                },
+                {
+                    "name": "Interact with Environment",
+                    "rollable": true,
+                    "module": "base",
+                    "actionCost": 1
+                },
+                {
+                    "name": "Create",
+                    "rollable": true,
+                    "module": "base",
+                    "actionCost": 1
+                }
+            ]
+        },
+        {
+            "name": "Freebies",
+            "actions": [
+                {
+                    "name": "Speak (upto 7 words per action)",
+                    "rollable": false,
+                    "module": "base",
+                    "actionCost": 0
+                },
+                {
+                    "name": "Drop Item",
+                    "rollable": false,
+                    "module": "base",
+                    "actionCost": 0
+                },
+                {
+                    "name": "Drop Prone",
+                    "rollable": false,
+                    "module": "base",
+                    "actionCost": 0
+                }
+            ]
         }
-    },
-    "Control": {
-        "Hamper Movement": {
-            "rollable": true,
-            "module": "base",
-            "actionCost": 1
-        },
-        "Control Zone": {
-            "rollable": true,
-            "module": "base",
-            "actionCost": 1
-        },
-        "Weaken": {
-            "rollable": true,
-            "module": "base",
-            "actionCost": 1
-        },
-        "Force Move": {
-            "rollable": true,
-            "module": "base",
-            "actionCost": 1
-        }
-    },
-    "Move": {
-        "Dash": {
-            "rollable": false,
-            "module": "base",
-            "actionCost": 1
-        },
-        "Negotiate Terrain": {
-            "rollable": true,
-            "module": "base",
-            "actionCost": 1
-        },
-        "Carefully Cross": {
-            "rollable": true,
-            "module": "base",
-            "actionCost": 1
-        },
-        "Climb": {
-            "rollable": true,
-            "module": "base",
-            "actionCost": 1
-        },
-        "Launch": {
-            "rollable": true,
-            "module": "base",
-            "actionCost": 1
-        }
-    },
-    "Incite": {
-        "Frighten": {
-            "rollable": true,
-            "module": "base",
-            "actionCost": 1
-        },
-        "Distract": {
-            "rollable": true,
-            "module": "base",
-            "actionCost": 1
-        },
-        "Enrage": {
-            "rollable": true,
-            "module": "base",
-            "actionCost": 1
-        },
-        "Placate": {
-            "rollable": true,
-            "module": "base",
-            "actionCost": 1
-        },
-        "Inspire": {
-            "rollable": true,
-            "module": "base",
-            "actionCost": 1
-        }
-    },
-    "Self-Control": {
-        "Shake it off": {
-            "rollable": true,
-            "module": "base",
-            "actionCost": 1
-        },
-        "Rally": {
-            "rollable": true,
-            "module": "base",
-            "actionCost": 1
-        },
-        "Defend": {
-            "rollable": false,
-            "module": "base",
-            "actionCost": 1
-        },
-        "Change": {
-            "rollable": false,
-            "module": "base",
-            "actionCost": 1
-        }
-    },
-    "Perceive": {
-        "Observe": {
-            "rollable": true,
-            "module": "base",
-            "actionCost": 1
-        },
-        "Use Senses": {
-            "rollable": true,
-            "module": "base",
-            "actionCost": 1
-        },
-        "Touch": {
-            "rollable": true,
-            "module": "base",
-            "actionCost": 1
-        }
-    },
-    "Interact": {
-        "Get Item": {
-            "rollable": false,
-            "module": "base",
-            "actionCost": 1
-        },
-        "Use Item": {
-            "rollable": true,
-            "module": "base",
-            "actionCost": 1
-        },
-        "Put Away Item": {
-            "rollable": false,
-            "module": "base",
-            "actionCost": 1
-        },
-        "Interact with Environment": {
-            "rollable": true,
-            "module": "base",
-            "actionCost": 1
-        },
-        "Create": {
-            "rollable": true,
-            "module": "base",
-            "actionCost": 1
-        }
-    },
-    "Freebies": {
-        "Speak (upto 7 words per action)": {
-            "rollable": false,
-            "module": "base",
-            "actionCost": 0
-        },
-        "Drop Item": {
-            "rollable": false,
-            "module": "base",
-            "actionCost": 0
-        },
-        "Drop Prone": {
-            "rollable": false,
-            "module": "base",
-            "actionCost": 0
-        }
-    }
+    ]
 }

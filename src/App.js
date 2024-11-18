@@ -1,6 +1,7 @@
 import './App.css';
 import AllActionsBox from './AllActionsBox';
 import { useState, useReducer } from 'react';
+import { ActionsContextProvider } from './ActionsContextProvider';
 
 function App() {
   const [actions, setActions] = useState({
@@ -26,7 +27,10 @@ function App() {
           onRoll={() => handleRoll(name)}
         />
       ))} */}
-      <AllActionsBox actions={actions} handleRoll={handleRoll} />
+      <ActionsContextProvider>
+        <AllActionsBox actions={actions} handleRoll={handleRoll} />\
+      </ActionsContextProvider>
+      
     </div>
   );
 }
