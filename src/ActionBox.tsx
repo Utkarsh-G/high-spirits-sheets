@@ -4,6 +4,14 @@ import d20 from './d20.png';
 
 
 
+// another way to do the below is
+// type ActionBoxProps = {actionName: string, rollResult: number, onRoll: () => void}
+// or
+// const ActionBox : React.FC<{actionName: string, rollResult: number, onRoll: () => void}> = ({actionName, rollResult, onRoll})
+// or both:
+// const ActionBox : React.FC<ActionBoxProps> = ({actionName, rollResult, onRoll})
+
+
 function ActionBox({actionName, rollResult, onRoll}: {actionName: string, rollResult: number, onRoll: () => void}) {
     const [assured] = useState(false);
     const [capped] = useState(false);
