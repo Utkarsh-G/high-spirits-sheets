@@ -1,3 +1,4 @@
+import React from 'react';
 import './App.css';
 import AllActionsBox from './AllActionsBox';
 import { ActionsContextProvider } from './ActionsContextProvider';
@@ -9,7 +10,6 @@ function App() {
       <ActionsContextProvider>
         <AllActionsBox />
       </ActionsContextProvider>
-      
     </div>
   );
 }
