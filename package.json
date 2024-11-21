@@ -2,6 +2,10 @@
   "name": "high-spirits-sheets",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "22.x",
+    "npm": "10.x"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -17,6 +21,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "prestart": "check-node-version --node 22",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -39,5 +44,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "check-node-version": "^4.2.1"
   }
 }
