@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useCallback } from 'react';
 import actionsFromFile from './actions.json';
 
 type FileAction = {
@@ -44,12 +44,11 @@ export type ActionsContextType = {
 
 export const ActionsContext = createContext<ActionsContextType | null>(null);
 
-const processActions = () : Actions => {
+const processActionsFromFile = () : Actions => {
 
     // just to ensure types are correct
     const importedActions : FileActions = actionsFromFile;
 
-    console.log("useState retriggere!");
     const processedActions = { "allActions" : importedActions.allActions.map(
         category => ({"name": category.name, "actions": category.actions.map(
             action => ({...action, roll : 0})
@@ -58,22 +57,22 @@ const processActions = () : Actions => {
     return processedActions;
 }
 
-const extractCategories = () : CategoryNames => {
-    console.log("Extracting categories");
+const extractCategoriesFromFile = () : CategoryNames => {
     const importedActions : FileActions = actionsFromFile;
     return importedActions.allActions.map(category => category.name)
 }
 
 export const ActionsContextProvider = ({ children } : {children: React.ReactNode}) => {
 
-    const [actions, setActions] = useState<Actions>(processActions()); // eventually we will want to process it a bit before setting as default
+    const [actions, setActions] = useState<Actions>(() => processActionsFromFile()); // eventually we will want to process it a bit before setting as default
         // Fascinating that you can't do processActions(actionsFromFile) inside useState() as it will try to reprocess it on every state change. it considers a new reference each time...?
         // follow up - try useCallback to avoid multiple reprocessing
-    const [categories] = useState<CategoryNames>(extractCategories);
+    const [categories] = useState<CategoryNames>(()=> extractCategoriesFromFile());
 
-    const handleRoll = (rolledName: string) => {
-        console.log("ROLLIn")
-        console.log(`Roller:${rolledName}`)
+    // While we could define handleRoll without useCallback, the hook is useful
+    // for turning an unstable reference to function (since it is being declared inside of a component)
+    // to a stable function reference with useCallback. A minor bit of optimization.
+    const handleRoll = useCallback((rolledName: string) => {
         const newRolls = actions.allActions.map(category => ({
           name: category.name,
           actions: category.actions.map(action => ({
@@ -81,10 +80,8 @@ export const ActionsContextProvider = ({ children } : {children: React.ReactNode
             roll: action.name === rolledName ? Math.floor(Math.random() * 20) + 1 : 0
           }))
         }));
-        console.log("New rolls: ");
-        console.log(newRolls);
         setActions({"allActions": newRolls});
-      };
+      },[actions]);
 
     return (
         <ActionsContext.Provider value={{ actions, categories, handleRoll }}>

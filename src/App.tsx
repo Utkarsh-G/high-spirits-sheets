@@ -10,7 +10,6 @@ function App() {
       <ActionsContextProvider>
         <AllActionsBox />
       </ActionsContextProvider>
-      
     </div>
   );
 }

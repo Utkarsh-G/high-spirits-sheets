@@ -1,31 +1,31 @@
 import ActionBox from './ActionBox';
 import './CategoryBox.css';
-import { ActionsContext, ActionsContextType, Action, Category } from './ActionsContextProvider';
-import React, { useContext, useState, useEffect } from 'react';
+import { ActionsContext, ActionsContextType, Action } from './ActionsContextProvider';
+import React, { useContext, useMemo } from 'react';
 
 function CategoryBox({categoryName}: {categoryName: string}) {
-    const {actions: ctxActions, handleRoll: ctxHandleRoll} = useContext<ActionsContextType>(ActionsContext as React.Context<ActionsContextType>);
-    //If ever it becomes an issue that we have to wait for context to load, 
-    // then we should add a loading state to our context. loading : actions === null
-    // We can then adjust the return of category box based on if loading or not loading.
+    /* Using contextAPI and useMemo for maximum synergy.
+    If we just processed the ctxActions in an in-component function, or as part of
+    setting initial state, it'd happen on every re-render. And if we passed function
+    form when setting initial state, then it'd only be set on initial render.
     
-    const [actions, setActions] = useState<Action[]>([])
+    In the current implementation, it is set at the initial render and then only 
+    recalculated when ctxActions changes!
 
-    useEffect(()=>{
-        const category : Category | undefined = ctxActions.allActions.find(category => category.name === categoryName);
-        if (category) {
-            setActions(category.actions)
-        }
-    }, [ctxActions, categoryName])
-    // if we needed to use the previous value of ctxAction, then we could move this to a reducer.
-    // categoryName is not going to change, but I've added it to dependency array to avoid warnings.
-
+    Honestly, there's probably a way to isolate just the roll changes, and then
+    only re-render the roll display by doing some combination of what we are doing now
+    + React.memo. We don't need that level of optimization yet, but it's good to know it exists.
+     */
+    const {actions: ctxActions, handleRoll: ctxHandleRoll} = useContext<ActionsContextType>(ActionsContext as React.Context<ActionsContextType>);
+    const actions: Action[] | undefined = useMemo(()=> {
+        return ctxActions.allActions.find(category => category.name === categoryName)?.actions;
+    }, [ctxActions, categoryName]);
 
     return (
         <div className="category-box">
             <div className="category-box-name">{categoryName}</div>
 
-            {actions.map(action =>(
+            {actions && actions.map(action =>(
                 <ActionBox 
                 key={action.name}
                 actionName={action.name} 
