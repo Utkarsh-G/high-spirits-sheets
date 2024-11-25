@@ -20,8 +20,8 @@ function ActionBox({actionName, rollResult, onRoll}: {actionName: string, rollRe
         <div className="action-box">
             <div className="action-box-status">{assured ? "Assured" : ""} {capped ? "Capped" : ""}</div>
             <div className="action-box-name">{actionName}</div>
-            <div className="action-box-roll"><img id="d20" onClick={onRoll} src={d20} alt="d20" /></div>
-            <div className="action-box-roll-result">{rollResult > 0 ? rollResult : ""}</div>
+            <div className="action-box-roll"><img id="d20" onClick={onRoll} data-testid={`button ${actionName}`} src={d20} alt="d20" /></div>
+            <div className="action-box-roll-result" data-testid={`roll ${actionName}`}>{rollResult > 0 ? rollResult : ""}</div>
         </div>
     );
 }
