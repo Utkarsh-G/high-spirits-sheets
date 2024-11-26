@@ -1,0 +1,9 @@
+.all-actions-box {
+    border: solid red thick;
+    width: 60vw;
+    height: 75vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: auto;
+}

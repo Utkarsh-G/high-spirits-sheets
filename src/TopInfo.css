@@ -1,0 +1,6 @@
+.top-info{
+    border: pink solid thin;
+    display: flex;
+    height: 22vh;
+    width: 100vw;
+}
