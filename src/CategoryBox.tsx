@@ -30,6 +30,7 @@ function CategoryBox({categoryName}: {categoryName: string}) {
                 key={action.name}
                 actionName={action.name} 
                 rollResult={action.roll}
+                isRollable={action.rollable}
                 onRoll={() => ctxHandleRoll(action.name)}
             />
             ))}
