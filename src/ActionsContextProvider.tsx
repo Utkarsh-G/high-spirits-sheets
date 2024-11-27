@@ -45,6 +45,7 @@ export type ActionsContextType = {
     actions: Actions;
     categories: CategoryNames;
     handleRoll: (rolledName: string) => void;
+    handleRollPowerChange: (rollPower: number) => void;
 }
 
 export const ActionsContext = createContext<ActionsContextType | null>(null);
@@ -56,7 +57,7 @@ const processActionsFromFile = () : Actions => {
 
     const processedActions = { "allActions" : importedActions.allActions.map(
         category => ({"name": category.name, "actions": category.actions.map(
-            action => ({...action, roll : [0, 0, 'neutral'] as RollResult, rollType: 'bane' as RollType})
+            action => ({...action, roll : [0, 0, 'neutral'] as RollResult, rollType: 'neutral' as RollType})
         )})
     )}
     console.log(processedActions);
@@ -109,8 +110,19 @@ export const ActionsContextProvider = ({ children } : {children: React.ReactNode
         setActions({"allActions": newRolls});
       },[actions]);
 
+      const handleRollPowerChange = useCallback((rollPower: number) => {
+        const newRolls = actions.allActions.map(category => ({
+          name: category.name,
+          actions: category.actions.map(action => ({
+            ...action,
+            rollType: rollPower > 0 ? 'boon' as RollType : rollPower < 0 ? 'bane' : 'neutral'
+          }))
+        }));
+        setActions({"allActions": newRolls});
+      },[actions]);
+
     return (
-        <ActionsContext.Provider value={{ actions, categories, handleRoll }}>
+        <ActionsContext.Provider value={{ actions, categories, handleRoll, handleRollPowerChange }}>
             {children}
         </ActionsContext.Provider>
     );

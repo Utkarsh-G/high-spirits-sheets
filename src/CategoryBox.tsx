@@ -1,7 +1,7 @@
 import ActionBox from './ActionBox';
 import './CategoryBox.css';
 import { ActionsContext, ActionsContextType, Action } from './ActionsContextProvider';
-import React, { MouseEvent, useContext, useMemo, useState } from 'react';
+import React, { MouseEvent, useContext, useEffect, useMemo, useState } from 'react';
 import CategoryPowerIndicator from './CategoryPowerIndicator';
 
 function CategoryBox({categoryName}: {categoryName: string}) {
@@ -17,7 +17,7 @@ function CategoryBox({categoryName}: {categoryName: string}) {
     only re-render the roll display by doing some combination of what we are doing now
     + React.memo. We don't need that level of optimization yet, but it's good to know it exists.
      */
-    const {actions: ctxActions, handleRoll: ctxHandleRoll} = useContext<ActionsContextType>(ActionsContext as React.Context<ActionsContextType>);
+    const {actions: ctxActions, handleRoll: ctxHandleRoll, handleRollPowerChange} = useContext<ActionsContextType>(ActionsContext as React.Context<ActionsContextType>);
     const actions: Action[] | undefined = useMemo(()=> {
         return ctxActions.allActions.find(category => category.name === categoryName)?.actions;
     }, [ctxActions, categoryName]);
@@ -28,6 +28,11 @@ function CategoryBox({categoryName}: {categoryName: string}) {
     const modifyRollPower = (e: MouseEvent, modifier: number): void => {
         setRollPower(Math.max(Math.min(rollPower + modifier, 3), -3));
     }
+
+    useEffect(()=>{
+        console.log("Changing boon / bane now that roll power is: " + rollPower)
+        handleRollPowerChange(rollPower);
+    }, [rollPower])
 
     // not missing my chance to curry
     const decreasePower = (event: MouseEvent) => {return modifyRollPower(event, -1);}
