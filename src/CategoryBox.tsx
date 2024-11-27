@@ -1,7 +1,8 @@
 import ActionBox from './ActionBox';
 import './CategoryBox.css';
 import { ActionsContext, ActionsContextType, Action } from './ActionsContextProvider';
-import React, { useContext, useMemo } from 'react';
+import React, { MouseEvent, useContext, useMemo, useState } from 'react';
+import CategoryPowerIndicator from './CategoryPowerIndicator';
 
 function CategoryBox({categoryName}: {categoryName: string}) {
     /* Using contextAPI and useMemo for maximum synergy.
@@ -21,10 +22,31 @@ function CategoryBox({categoryName}: {categoryName: string}) {
         return ctxActions.allActions.find(category => category.name === categoryName)?.actions;
     }, [ctxActions, categoryName]);
 
+    const [rollPower, setRollPower] = useState<number>(0)
+    const [situationalModifier, setSituationalModifier] = useState<number>(0)
+
+    const modifyRollPower = (e: MouseEvent, modifier: number): void => {
+        setRollPower(Math.max(Math.min(rollPower + modifier, 3), -3));
+    }
+
+    // not missing my chance to curry
+    const decreasePower = (event: MouseEvent) => {return modifyRollPower(event, -1);}
+    const increasePower = (event: MouseEvent) => {return modifyRollPower(event, 1);}
+
     return (
         <div className="category-box">
-            <div className="category-box-name">{categoryName}</div>
-
+            <div className="category-box-top">
+                <CategoryPowerIndicator rollPower={rollPower} modifyRollPower={decreasePower} />
+                <span className={`dot ${rollPower < -2 ? 'filled-bane':''}`}></span>
+                <span className={`dot ${rollPower < -1 ? 'filled-bane':''}`}></span>
+                <span className={`dot ${rollPower < 0 ? 'filled-bane':''}`}></span>
+                <div className="category-box-name">{categoryName} </div>
+                <span className={`dot ${rollPower > 0 ? 'filled-boon':''}`}></span>
+                <span className={`dot ${rollPower > 1 ? 'filled-boon':''}`}></span>
+                <span className={`dot ${rollPower > 2 ? 'filled-boon':''}`}></span>
+                <CategoryPowerIndicator rollPower={rollPower} modifyRollPower={increasePower} />
+            </div>
+            
             {actions && actions.map(action =>(
                 <ActionBox 
                 key={action.name}
