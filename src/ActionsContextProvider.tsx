@@ -17,12 +17,17 @@ type FileActions = {
     allActions: FileCategory[];
 }
 
+export type RollType = 'bane' | 'boon' | 'neutral';
+
+export type RollResult = [number, number, RollType];
+
 export type Action = {
     name: string;
     rollable: boolean;
     module: string;
     actionCost: number;
-    roll: number;
+    roll: RollResult;
+    rollType: RollType;
 }
 
 export type Category = {
@@ -51,15 +56,36 @@ const processActionsFromFile = () : Actions => {
 
     const processedActions = { "allActions" : importedActions.allActions.map(
         category => ({"name": category.name, "actions": category.actions.map(
-            action => ({...action, roll : 0})
+            action => ({...action, roll : [0, 0, 'neutral'] as RollResult, rollType: 'bane' as RollType})
         )})
     )}
+    console.log(processedActions);
     return processedActions;
 }
 
 const extractCategoriesFromFile = () : CategoryNames => {
     const importedActions : FileActions = actionsFromFile;
     return importedActions.allActions.map(category => category.name)
+}
+
+const rollD20 = () => Math.floor(Math.random() * 20) + 1;
+
+const rollDice = (rollType: RollType) : RollResult => {
+    let rolledValue: RollResult = [0, 0, 'neutral'];
+    switch(rollType){
+        case 'bane':
+            rolledValue = [rollD20(), rollD20(), 'bane'];
+            break;
+        case 'boon':
+            rolledValue = [rollD20(), rollD20(), 'boon'];
+            break;
+        case 'neutral':
+            rolledValue = [rollD20(), 0, 'neutral']
+            break;
+        default:
+            rolledValue = [888, 0, 'neutral']
+    }
+    return rolledValue;
 }
 
 export const ActionsContextProvider = ({ children } : {children: React.ReactNode}) => {
@@ -77,7 +103,7 @@ export const ActionsContextProvider = ({ children } : {children: React.ReactNode
           name: category.name,
           actions: category.actions.map(action => ({
             ...action,
-            roll: action.name === rolledName ? Math.floor(Math.random() * 20) + 1 : 0
+            roll: action.name === rolledName ? rollDice(action.rollType) : [0, 0, 'neutral'] as RollResult
           }))
         }));
         setActions({"allActions": newRolls});

@@ -25,3 +25,7 @@
     margin-right: 10px;
     min-width: 30px;
 }
+
+.struck {
+    text-decoration: line-through;
+}

@@ -1,6 +1,7 @@
 import './ActionBox.css';
 import React, { useState } from 'react';
 import d20 from './d20.png';
+import { RollResult } from './ActionsContextProvider';
 
 
 
@@ -12,7 +13,7 @@ import d20 from './d20.png';
 // const ActionBox : React.FC<ActionBoxProps> = ({actionName, rollResult, onRoll})
 
 
-function ActionBox({actionName, rollResult, onRoll, isRollable}: {actionName: string, rollResult: number, onRoll: () => void, isRollable: boolean}) {
+function ActionBox({actionName, rollResult, onRoll, isRollable}: {actionName: string, rollResult: RollResult, onRoll: () => void, isRollable: boolean}) {
     const [assured] = useState(false);
     const [capped] = useState(false);
     const [rollable] = useState(isRollable);
@@ -24,7 +25,11 @@ function ActionBox({actionName, rollResult, onRoll, isRollable}: {actionName: st
             <div className="action-box-roll">
             {rollable && <img id="d20" onClick={onRoll} data-testid={`button ${actionName}`} src={d20} alt="d20" />}
             </div>
-            <div className="action-box-roll-result" data-testid={`roll ${actionName}`}>{rollResult > 0 ? rollResult : ""}</div>
+            <div className="action-box-roll-result" data-testid={`roll ${actionName}`}>
+                {rollResult[2] === 'neutral' && rollResult[0] > 0 ? rollResult[0] : ""}
+                {rollResult[2] === 'boon' && rollResult[0] > 0 ? rollResult[0] >= rollResult[1] ? <><span>{rollResult[0]}</span> <span className='struck'>{rollResult[1]}</span> </>  : <><span className='struck'>{rollResult[0]}</span> <span>{rollResult[1]}</span> </> : ""}
+                {rollResult[2] === 'bane' && rollResult[0] > 0 ? rollResult[1] >= rollResult[0] ? <><span>{rollResult[0]}</span> <span className='struck'>{rollResult[1]}</span> </>  : <><span className='struck'>{rollResult[0]}</span> <span>{rollResult[1]}</span> </> : ""}
+            </div>
         </div>
     );
 }

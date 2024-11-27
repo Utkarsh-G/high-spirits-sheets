@@ -37,6 +37,7 @@ function CategoryBox({categoryName}: {categoryName: string}) {
         <div className="category-box">
             <div className="category-box-top">
                 <CategoryPowerIndicator rollPower={rollPower} modifyRollPower={decreasePower} />
+                 {/* Is the notation below confusing? Could it be compressed or clarified?*/}
                 <span className={`dot ${rollPower < -2 ? 'filled-bane':''}`}></span>
                 <span className={`dot ${rollPower < -1 ? 'filled-bane':''}`}></span>
                 <span className={`dot ${rollPower < 0 ? 'filled-bane':''}`}></span>
