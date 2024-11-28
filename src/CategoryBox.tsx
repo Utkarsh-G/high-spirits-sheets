@@ -23,7 +23,6 @@ function CategoryBox({categoryName}: {categoryName: string}) {
     }, [actions, categoryName]);
 
     const [categoryPower, setCategoryPower] = useState<number>(0)
-    const [situationalModifier, setSituationalModifier] = useState<number>(0)
 
     const modifyCategoryPower = (e: MouseEvent, modifier: number): void => {
         setCategoryPower(Math.max(Math.min(categoryPower + modifier, 3), -3));

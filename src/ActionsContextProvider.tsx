@@ -87,22 +87,18 @@ const extractCategoriesFromFile = () : CategoryNames => {
 
 const rollD20 = (): d20Roll => Math.floor(Math.random() * 20) + 1 as d20Roll;
 
-const rollDice = (rollType: RollType) : RollResult => {
-    let rolledValue: RollResult = [1, 1, 'none'];
-    switch(rollType){
-        case 'bane':
-            rolledValue = [rollD20(), rollD20(), 'bane'];
-            break;
-        case 'boon':
-            rolledValue = [rollD20(), rollD20(), 'boon'];
-            break;
-        case 'neutral':
-            rolledValue = [rollD20(), rollD20(), 'neutral']
-            break;
-        default:
-            rolledValue = [1, 1, 'neutral']
-    }
-    return rolledValue;
+const rollDice = (categoryPower: number, isSituationalBane: boolean, isSituationalBoon: boolean) : RollResult => {
+
+    if (categoryPower === 1 && isSituationalBane && !isSituationalBoon) return [rollD20(), 1, 'neutral'];
+    if (categoryPower > 0) return [rollD20(), rollD20(), 'boon'];
+
+    if (categoryPower === -1 && !isSituationalBane && isSituationalBoon) return [rollD20(), 1, 'neutral'];
+    if (categoryPower < 0) return [rollD20(), rollD20(), 'bane'];
+
+    if (isSituationalBane && !isSituationalBoon) return [rollD20(), rollD20(), 'bane'];
+    if (!isSituationalBane && isSituationalBoon) return [rollD20(), rollD20(), 'boon'];
+
+    return [rollD20(), 1, 'neutral'];
 }
 
 // const resetAllRolls = (actions: Actions, actionSetter: (actions: Actions)=> void) => {
@@ -127,7 +123,7 @@ export const ActionsContextProvider = ({ children } : {children: React.ReactNode
           categoryPower: category.categoryPower,
           actions: category.actions.map(action => ({
             ...action,
-            roll: action.name === rolledName ? rollDice(action.rollType) : [1, 1, 'none'] as RollResult
+            roll: action.name === rolledName ? rollDice(category.categoryPower, isSituationalBane, isSituationalBoon) : [1, 1, 'none'] as RollResult
           }))
         }));
         setActions({"allActions": newRolls});
