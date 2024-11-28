@@ -25,13 +25,10 @@ function CategoryBox({categoryName}: {categoryName: string}) {
     const [categoryPower, setCategoryPower] = useState<number>(0)
 
     const modifyCategoryPower = (e: MouseEvent, modifier: number): void => {
-        setCategoryPower(Math.max(Math.min(categoryPower + modifier, 3), -3));
-    }
-
-    useEffect(()=>{
-        console.log("Changing boon / bane now that roll power is: " + categoryPower)
-        handleCategoryPowerChange(categoryPower, categoryName);
-    }, [categoryPower])
+        const newPower = Math.max(Math.min(categoryPower + modifier, 3), -3);
+        setCategoryPower(newPower);
+        handleCategoryPowerChange(newPower, categoryName);
+    } // could turn this into a useCallback
 
     // not missing my chance to curry
     const decreasePower = (event: MouseEvent) => {return modifyCategoryPower(event, -1);}

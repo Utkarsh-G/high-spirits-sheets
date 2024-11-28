@@ -46,6 +46,7 @@ export type CategoryNames = string[];
 
 export type ActionsContextType = {
     actions: Actions;
+    setActions: (actions: Actions)=>void;
     categories: CategoryNames;
     handleRoll: (rolledName: string) => void;
     handleCategoryPowerChange: (rollPower: number, categoryName: string) => void;
@@ -107,6 +108,7 @@ export const ActionsContextProvider = ({ children } : {children: React.ReactNode
     // for turning an unstable reference to function (since it is being declared inside of a component)
     // to a stable function reference with useCallback. A minor bit of optimization.
     const handleRoll = useCallback((rolledName: string) => {
+        console.log(`bane: ${isSituationalBane}, boon: ${isSituationalBoon}`)
         const newRolls = actions.allActions.map(category => ({
           name: category.name,
           categoryPower: category.categoryPower,
@@ -119,17 +121,19 @@ export const ActionsContextProvider = ({ children } : {children: React.ReactNode
       },[actions, isSituationalBane, isSituationalBoon]);
 
       const handleCategoryPowerChange = useCallback((categoryPower: number, categoryName: string) => {
+        console.log("triggered Handle Category Power Change.")
         const newRolls = actions.allActions.map(category => ({
           name: category.name,
           actions: category.actions,
           categoryPower: category.name === categoryName ? categoryPower : category.categoryPower
         }));
         setActions({"allActions": newRolls});
-      },[actions]);
+      },[actions]); // but I don't even want this function to trigger or refresh its reference when actions change. w/e. 
 
     return (
-        <ActionsContext.Provider value={{ actions, categories, handleRoll, handleCategoryPowerChange: handleCategoryPowerChange, isSituationalBane, isSituationalBoon, setIsSituationalBane, setIsSituationalBoon }}>
+        <ActionsContext.Provider value={{ actions, setActions, categories, handleRoll, handleCategoryPowerChange, isSituationalBane, isSituationalBoon, setIsSituationalBane, setIsSituationalBoon }}>
             {children}
         </ActionsContext.Provider>
     );
 };
+//handleCategoryPowerChange: (categoryPower, categoryName)=>{handleCategoryPowerChange(categoryPower, categoryName, actions, setActions)}
