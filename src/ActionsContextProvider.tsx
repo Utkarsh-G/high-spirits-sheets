@@ -46,7 +46,13 @@ export type ActionsContextType = {
     categories: CategoryNames;
     handleRoll: (rolledName: string) => void;
     handleRollPowerChange: (rollPower: number, categoryName: string) => void;
+    isSituationalBane: boolean;
+    isSituationalBoon: boolean;
+    setIsSituationalBoon: (situation: boolean) => void;
+    setIsSituationalBane: (situation: boolean) => void;
+
 }
+// May want to split off the situational bane / boon stuff into a different context, right?
 
 export const ActionsContext = createContext<ActionsContextType | null>(null);
 
@@ -95,6 +101,8 @@ export const ActionsContextProvider = ({ children } : {children: React.ReactNode
         // Fascinating that you can't do processActions(actionsFromFile) inside useState() as it will try to reprocess it on every state change. it considers a new reference each time...?
         // follow up - try useCallback to avoid multiple reprocessing
     const [categories] = useState<CategoryNames>(()=> extractCategoriesFromFile());
+    const [isSituationalBoon, setIsSituationalBoon] = useState<boolean>(false);
+    const [isSituationalBane, setIsSituationalBane] = useState<boolean>(false);
 
     // While we could define handleRoll without useCallback, the hook is useful
     // for turning an unstable reference to function (since it is being declared inside of a component)
@@ -122,7 +130,7 @@ export const ActionsContextProvider = ({ children } : {children: React.ReactNode
       },[actions]);
 
     return (
-        <ActionsContext.Provider value={{ actions, categories, handleRoll, handleRollPowerChange }}>
+        <ActionsContext.Provider value={{ actions, categories, handleRoll, handleRollPowerChange, isSituationalBane, isSituationalBoon, setIsSituationalBane, setIsSituationalBoon }}>
             {children}
         </ActionsContext.Provider>
     );

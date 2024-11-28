@@ -1,13 +1,17 @@
 import './TopInfo.css';
-import { useState } from "react";
+import { useState, useContext } from "react";
 import './StatCounter';
 import StatCounter from './StatCounter';
+import { ActionsContext, ActionsContextType } from './ActionsContextProvider';
+
 
 export default function TopInfo (){
     const [moxie, setMoxie] = useState(0);
     const [stress, setStress] = useState(0);
     const [gumption, setGumption] = useState(0);
     const [rallies, setRallies] = useState(30);
+
+    const {setIsSituationalBoon, setIsSituationalBane, isSituationalBane, isSituationalBoon} = useContext<ActionsContextType>(ActionsContext as React.Context<ActionsContextType>)
 
     return (<div className="top-info">
         <div className='top-left'>
@@ -21,6 +25,11 @@ export default function TopInfo (){
             <div>
                 <label>Capped:</label>
             </div>
+            <button onClick={(event)=>{setIsSituationalBane(!isSituationalBane)}} > Situational Bane <span className={`dot ${isSituationalBane ? 'filled-bane':''}`}></span> </button>
+                {/** TODO: DRY out the dot styling. Also, possibly break up this big component into smaller ones? 
+                 * {`dot ${rollPower < -2 ? 'filled-bane':''}`}
+                */}
+            <button onClick={(event)=>{setIsSituationalBoon(!isSituationalBoon)}} > Situational Boon <span className={`dot ${isSituationalBoon ? 'filled-boon':''}`}></span> </button>
         </div>
         <div className='top-right'>
             <div>
