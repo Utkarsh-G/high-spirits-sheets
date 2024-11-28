@@ -17,40 +17,40 @@ function CategoryBox({categoryName}: {categoryName: string}) {
     only re-render the roll display by doing some combination of what we are doing now
     + React.memo. We don't need that level of optimization yet, but it's good to know it exists.
      */
-    const {actions: ctxActions, handleRoll: ctxHandleRoll, handleRollPowerChange} = useContext<ActionsContextType>(ActionsContext as React.Context<ActionsContextType>);
+    const {actions: ctxActions, handleRoll: ctxHandleRoll, handleCategoryPowerChange} = useContext<ActionsContextType>(ActionsContext as React.Context<ActionsContextType>);
     const actions: Action[] | undefined = useMemo(()=> {
         return ctxActions.allActions.find(category => category.name === categoryName)?.actions;
     }, [ctxActions, categoryName]);
 
-    const [rollPower, setRollPower] = useState<number>(0)
+    const [categoryPower, setCategoryPower] = useState<number>(0)
     const [situationalModifier, setSituationalModifier] = useState<number>(0)
 
-    const modifyRollPower = (e: MouseEvent, modifier: number): void => {
-        setRollPower(Math.max(Math.min(rollPower + modifier, 3), -3));
+    const modifyCategoryPower = (e: MouseEvent, modifier: number): void => {
+        setCategoryPower(Math.max(Math.min(categoryPower + modifier, 3), -3));
     }
 
     useEffect(()=>{
-        console.log("Changing boon / bane now that roll power is: " + rollPower)
-        handleRollPowerChange(rollPower, categoryName);
-    }, [rollPower])
+        console.log("Changing boon / bane now that roll power is: " + categoryPower)
+        handleCategoryPowerChange(categoryPower, categoryName);
+    }, [categoryPower])
 
     // not missing my chance to curry
-    const decreasePower = (event: MouseEvent) => {return modifyRollPower(event, -1);}
-    const increasePower = (event: MouseEvent) => {return modifyRollPower(event, 1);}
+    const decreasePower = (event: MouseEvent) => {return modifyCategoryPower(event, -1);}
+    const increasePower = (event: MouseEvent) => {return modifyCategoryPower(event, 1);}
 
     return (
         <div className="category-box">
             <div className="category-box-top">
-                <CategoryPowerIndicator rollPower={rollPower} modifyRollPower={decreasePower} />
+                <CategoryPowerIndicator rollPower={categoryPower} modifyRollPower={decreasePower} />
                  {/* Is the notation below confusing? Could it be compressed or clarified?*/}
-                <span className={`dot ${rollPower < -2 ? 'filled-bane':''}`}></span>
-                <span className={`dot ${rollPower < -1 ? 'filled-bane':''}`}></span>
-                <span className={`dot ${rollPower < 0 ? 'filled-bane':''}`}></span>
+                <span className={`dot ${categoryPower < -2 ? 'filled-bane':''}`}></span>
+                <span className={`dot ${categoryPower < -1 ? 'filled-bane':''}`}></span>
+                <span className={`dot ${categoryPower < 0 ? 'filled-bane':''}`}></span>
                 <div className="category-box-name">{categoryName} </div>
-                <span className={`dot ${rollPower > 0 ? 'filled-boon':''}`}></span>
-                <span className={`dot ${rollPower > 1 ? 'filled-boon':''}`}></span>
-                <span className={`dot ${rollPower > 2 ? 'filled-boon':''}`}></span>
-                <CategoryPowerIndicator rollPower={rollPower} modifyRollPower={increasePower} />
+                <span className={`dot ${categoryPower > 0 ? 'filled-boon':''}`}></span>
+                <span className={`dot ${categoryPower > 1 ? 'filled-boon':''}`}></span>
+                <span className={`dot ${categoryPower > 2 ? 'filled-boon':''}`}></span>
+                <CategoryPowerIndicator rollPower={categoryPower} modifyRollPower={increasePower} />
             </div>
             
             {actions && actions.map(action =>(
