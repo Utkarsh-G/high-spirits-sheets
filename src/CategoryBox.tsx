@@ -17,10 +17,10 @@ function CategoryBox({categoryName}: {categoryName: string}) {
     only re-render the roll display by doing some combination of what we are doing now
     + React.memo. We don't need that level of optimization yet, but it's good to know it exists.
      */
-    const {actions: ctxActions, handleCategoryPowerChange} = useContext<ActionsContextType>(ActionsContext as React.Context<ActionsContextType>);
-    const actions: Action[] | undefined = useMemo(()=> {
-        return ctxActions.allActions.find(category => category.name === categoryName)?.actions;
-    }, [ctxActions, categoryName]);
+    const {actions, handleCategoryPowerChange} = useContext<ActionsContextType>(ActionsContext as React.Context<ActionsContextType>);
+    const actionsInCategory: Action[] | undefined = useMemo(()=> {
+        return actions.allActions.find(category => category.name === categoryName)?.actions;
+    }, [actions, categoryName]);
 
     const [categoryPower, setCategoryPower] = useState<number>(0)
     const [situationalModifier, setSituationalModifier] = useState<number>(0)
@@ -53,7 +53,7 @@ function CategoryBox({categoryName}: {categoryName: string}) {
                 <CategoryPowerIndicator rollPower={categoryPower} modifyCategoryPower={increasePower} />
             </div>
             
-            {actions && actions.map(action =>(
+            {actionsInCategory && actionsInCategory.map(action =>(
                 <ActionBox 
                 key={action.name}
                 actionName={action.name} 

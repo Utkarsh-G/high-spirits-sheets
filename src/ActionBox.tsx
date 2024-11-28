@@ -25,7 +25,7 @@ function ActionBox({actionName, rollResult, isRollable}: {actionName: string, ro
             <div className="action-box-status">{assured ? "Assured" : ""} {capped ? "Capped" : ""}</div>
             <div className="action-box-name">{actionName}</div>
             <div className="action-box-roll">
-            {rollable && <img id="d20" onClick={(event)=>{handleRoll(actionName)}} data-testid={`button ${actionName}`} src={d20} alt="d20" />}
+            {rollable && <img id="d20" onClick={(_)=>{handleRoll(actionName)}} data-testid={`button ${actionName}`} src={d20} alt="d20" />}
             </div>
             <div className="action-box-roll-result" data-testid={`roll ${actionName}`}>
                 {rollResult[2] === 'neutral' && rollResult[0] > 0 ? rollResult[0] : ""}
