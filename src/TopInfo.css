@@ -4,3 +4,13 @@
     height: 22vh;
     width: 100vw;
 }
+
+.top-left{
+    flex-grow: 2;
+    border: darkblue dotted thin;
+}
+
+.top-right{
+    flex-grow: 1;
+    border: lightblue dotted thin;
+}
