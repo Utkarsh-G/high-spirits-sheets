@@ -46,7 +46,6 @@ export type CategoryNames = string[];
 
 export type ActionsContextType = {
     actions: Actions;
-    setActions: (actions: Actions)=>void;
     categories: CategoryNames;
     handleRoll: (rolledName: string) => void;
     handleCategoryPowerChange: (rollPower: number, categoryName: string) => void;
@@ -121,19 +120,17 @@ export const ActionsContextProvider = ({ children } : {children: React.ReactNode
       },[actions, isSituationalBane, isSituationalBoon]);
 
       const handleCategoryPowerChange = useCallback((categoryPower: number, categoryName: string) => {
-        console.log("triggered Handle Category Power Change.")
         const newRolls = actions.allActions.map(category => ({
           name: category.name,
           actions: category.actions,
           categoryPower: category.name === categoryName ? categoryPower : category.categoryPower
         }));
         setActions({"allActions": newRolls});
-      },[actions]); // but I don't even want this function to trigger or refresh its reference when actions change. w/e. 
+      },[actions]);
 
     return (
-        <ActionsContext.Provider value={{ actions, setActions, categories, handleRoll, handleCategoryPowerChange, isSituationalBane, isSituationalBoon, setIsSituationalBane, setIsSituationalBoon }}>
+        <ActionsContext.Provider value={{ actions, categories, handleRoll, handleCategoryPowerChange, isSituationalBane, isSituationalBoon, setIsSituationalBane, setIsSituationalBoon }}>
             {children}
         </ActionsContext.Provider>
     );
 };
-//handleCategoryPowerChange: (categoryPower, categoryName)=>{handleCategoryPowerChange(categoryPower, categoryName, actions, setActions)}

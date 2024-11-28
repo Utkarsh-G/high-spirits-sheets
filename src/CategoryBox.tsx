@@ -1,17 +1,17 @@
 import ActionBox from './ActionBox';
 import './CategoryBox.css';
 import { ActionsContext, ActionsContextType, Action } from './ActionsContextProvider';
-import React, { MouseEvent, useContext, useEffect, useMemo, useState } from 'react';
+import React, { MouseEvent, useContext, useCallback, useMemo, useState } from 'react';
 import CategoryPowerIndicator from './CategoryPowerIndicator';
 
 function CategoryBox({categoryName}: {categoryName: string}) {
     /* Using contextAPI and useMemo for maximum synergy.
-    If we just processed the ctxActions in an in-component function, or as part of
+    If we just processed the actions in an in-component function, or as part of
     setting initial state, it'd happen on every re-render. And if we passed function
     form when setting initial state, then it'd only be set on initial render.
     
     In the current implementation, it is set at the initial render and then only 
-    recalculated when ctxActions changes!
+    recalculated when actions changes!
 
     Honestly, there's probably a way to isolate just the roll changes, and then
     only re-render the roll display by doing some combination of what we are doing now
@@ -24,11 +24,11 @@ function CategoryBox({categoryName}: {categoryName: string}) {
 
     const [categoryPower, setCategoryPower] = useState<number>(0)
 
-    const modifyCategoryPower = (e: MouseEvent, modifier: number): void => {
+    const modifyCategoryPower = useCallback((e: MouseEvent, modifier: number): void => {
         const newPower = Math.max(Math.min(categoryPower + modifier, 3), -3);
         setCategoryPower(newPower);
         handleCategoryPowerChange(newPower, categoryName);
-    } // could turn this into a useCallback
+    }, [categoryPower, categoryName, handleCategoryPowerChange])
 
     // not missing my chance to curry
     const decreasePower = (event: MouseEvent) => {return modifyCategoryPower(event, -1);}
