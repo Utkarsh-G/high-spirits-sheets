@@ -20,13 +20,6 @@ type FileActions = {
 export type RollType = 'bane' | 'boon' | 'neutral' | 'none';
 
 type d20Roll = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20;
-type categoryPower = -3 | -2 | -1 | 0 | 1 | 2 | 3 ;
-
-type Roll = {
-    firstRoll: d20Roll;
-    secondRoll: d20Roll;
-    categoryPower: categoryPower;
-}
 
 export type RollResult = [d20Roll, d20Roll, RollType];
 
@@ -125,11 +118,11 @@ export const ActionsContextProvider = ({ children } : {children: React.ReactNode
         setActions({"allActions": newRolls});
       },[actions, isSituationalBane, isSituationalBoon]);
 
-      const handleCategoryPowerChange = useCallback((rollPower: number, categoryName: string) => {
+      const handleCategoryPowerChange = useCallback((categoryPower: number, categoryName: string) => {
         const newRolls = actions.allActions.map(category => ({
           name: category.name,
           actions: category.actions,
-          categoryPower: rollPower
+          categoryPower: category.name === categoryName ? categoryPower : category.categoryPower
         }));
         setActions({"allActions": newRolls});
       },[actions]);
