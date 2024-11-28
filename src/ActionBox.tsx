@@ -1,7 +1,7 @@
 import './ActionBox.css';
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import d20 from './d20.png';
-import { RollResult } from './ActionsContextProvider';
+import { RollResult, ActionsContext, ActionsContextType } from './ActionsContextProvider';
 
 
 
@@ -13,17 +13,19 @@ import { RollResult } from './ActionsContextProvider';
 // const ActionBox : React.FC<ActionBoxProps> = ({actionName, rollResult, onRoll})
 
 
-function ActionBox({actionName, rollResult, onRoll, isRollable}: {actionName: string, rollResult: RollResult, onRoll: () => void, isRollable: boolean}) {
+function ActionBox({actionName, rollResult, isRollable}: {actionName: string, rollResult: RollResult, isRollable: boolean}) {
     const [assured] = useState(false);
     const [capped] = useState(false);
     const [rollable] = useState(isRollable);
+
+    const { handleRoll } = useContext(ActionsContext as React.Context<ActionsContextType>)
 
     return (
         <div className="action-box">
             <div className="action-box-status">{assured ? "Assured" : ""} {capped ? "Capped" : ""}</div>
             <div className="action-box-name">{actionName}</div>
             <div className="action-box-roll">
-            {rollable && <img id="d20" onClick={onRoll} data-testid={`button ${actionName}`} src={d20} alt="d20" />}
+            {rollable && <img id="d20" onClick={(event)=>{handleRoll(actionName)}} data-testid={`button ${actionName}`} src={d20} alt="d20" />}
             </div>
             <div className="action-box-roll-result" data-testid={`roll ${actionName}`}>
                 {rollResult[2] === 'neutral' && rollResult[0] > 0 ? rollResult[0] : ""}

@@ -17,7 +17,7 @@ function CategoryBox({categoryName}: {categoryName: string}) {
     only re-render the roll display by doing some combination of what we are doing now
     + React.memo. We don't need that level of optimization yet, but it's good to know it exists.
      */
-    const {actions: ctxActions, handleRoll: ctxHandleRoll, handleCategoryPowerChange} = useContext<ActionsContextType>(ActionsContext as React.Context<ActionsContextType>);
+    const {actions: ctxActions, handleCategoryPowerChange} = useContext<ActionsContextType>(ActionsContext as React.Context<ActionsContextType>);
     const actions: Action[] | undefined = useMemo(()=> {
         return ctxActions.allActions.find(category => category.name === categoryName)?.actions;
     }, [ctxActions, categoryName]);
@@ -59,7 +59,6 @@ function CategoryBox({categoryName}: {categoryName: string}) {
                 actionName={action.name} 
                 rollResult={action.roll}
                 isRollable={action.rollable}
-                onRoll={() => ctxHandleRoll(action.name)}
             />
             ))}
 
