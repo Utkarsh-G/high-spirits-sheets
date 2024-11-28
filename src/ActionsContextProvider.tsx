@@ -45,7 +45,7 @@ export type ActionsContextType = {
     actions: Actions;
     categories: CategoryNames;
     handleRoll: (rolledName: string) => void;
-    handleRollPowerChange: (rollPower: number) => void;
+    handleRollPowerChange: (rollPower: number, categoryName: string) => void;
 }
 
 export const ActionsContext = createContext<ActionsContextType | null>(null);
@@ -110,12 +110,12 @@ export const ActionsContextProvider = ({ children } : {children: React.ReactNode
         setActions({"allActions": newRolls});
       },[actions]);
 
-      const handleRollPowerChange = useCallback((rollPower: number) => {
+      const handleRollPowerChange = useCallback((rollPower: number, categoryName: string) => {
         const newRolls = actions.allActions.map(category => ({
           name: category.name,
           actions: category.actions.map(action => ({
             ...action,
-            rollType: rollPower > 0 ? 'boon' as RollType : rollPower < 0 ? 'bane' : 'neutral'
+            rollType: categoryName === category.name ? rollPower > 0 ? 'boon' as RollType : rollPower < 0 ? 'bane' : 'neutral' : action.rollType
           }))
         }));
         setActions({"allActions": newRolls});

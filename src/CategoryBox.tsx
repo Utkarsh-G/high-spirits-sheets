@@ -31,7 +31,7 @@ function CategoryBox({categoryName}: {categoryName: string}) {
 
     useEffect(()=>{
         console.log("Changing boon / bane now that roll power is: " + rollPower)
-        handleRollPowerChange(rollPower);
+        handleRollPowerChange(rollPower, categoryName);
     }, [rollPower])
 
     // not missing my chance to curry
