@@ -41,7 +41,7 @@ function CategoryBox({categoryName}: {categoryName: string}) {
     return (
         <div className="category-box">
             <div className="category-box-top">
-                <CategoryPowerIndicator rollPower={categoryPower} modifyRollPower={decreasePower} />
+                <CategoryPowerIndicator rollPower={categoryPower} modifyCategoryPower={decreasePower} />
                  {/* Is the notation below confusing? Could it be compressed or clarified?*/}
                 <span className={`dot ${categoryPower < -2 ? 'filled-bane':''}`}></span>
                 <span className={`dot ${categoryPower < -1 ? 'filled-bane':''}`}></span>
@@ -50,7 +50,7 @@ function CategoryBox({categoryName}: {categoryName: string}) {
                 <span className={`dot ${categoryPower > 0 ? 'filled-boon':''}`}></span>
                 <span className={`dot ${categoryPower > 1 ? 'filled-boon':''}`}></span>
                 <span className={`dot ${categoryPower > 2 ? 'filled-boon':''}`}></span>
-                <CategoryPowerIndicator rollPower={categoryPower} modifyRollPower={increasePower} />
+                <CategoryPowerIndicator rollPower={categoryPower} modifyCategoryPower={increasePower} />
             </div>
             
             {actions && actions.map(action =>(
