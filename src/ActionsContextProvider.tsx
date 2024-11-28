@@ -101,10 +101,6 @@ const rollDice = (categoryPower: number, isSituationalBane: boolean, isSituation
     return [rollD20(), 1, 'neutral'];
 }
 
-// const resetAllRolls = (actions: Actions, actionSetter: (actions: Actions)=> void) => {
-//     const blankActions = 
-// }
-
 export const ActionsContextProvider = ({ children } : {children: React.ReactNode}) => {
 
     const [actions, setActions] = useState<Actions>(() => processActionsFromFile()); // eventually we will want to process it a bit before setting as default
@@ -127,7 +123,7 @@ export const ActionsContextProvider = ({ children } : {children: React.ReactNode
           }))
         }));
         setActions({"allActions": newRolls});
-      },[actions]);
+      },[actions, isSituationalBane, isSituationalBoon]);
 
       const handleCategoryPowerChange = useCallback((rollPower: number, categoryName: string) => {
         const newRolls = actions.allActions.map(category => ({
