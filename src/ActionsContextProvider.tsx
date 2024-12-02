@@ -17,9 +17,11 @@ type FileActions = {
     allActions: FileCategory[];
 }
 
-export type RollType = 'bane' | 'boon' | 'neutral';
+export type RollType = 'bane' | 'boon' | 'neutral' | 'none';
 
-export type RollResult = [number, number, RollType];
+type d20Roll = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20;
+
+export type RollResult = [d20Roll, d20Roll, RollType];
 
 export type Action = {
     name: string;
@@ -33,6 +35,7 @@ export type Action = {
 export type Category = {
     name: string;
     actions: Action[];
+    categoryPower: number;
 }
 
 export type Actions = {
@@ -45,7 +48,7 @@ export type ActionsContextType = {
     actions: Actions;
     categories: CategoryNames;
     handleRoll: (rolledName: string) => void;
-    handleRollPowerChange: (rollPower: number, categoryName: string) => void;
+    handleCategoryPowerChange: (rollPower: number, categoryName: string) => void;
     isSituationalBane: boolean;
     isSituationalBoon: boolean;
     setIsSituationalBoon: (situation: boolean) => void;
@@ -62,8 +65,8 @@ const processActionsFromFile = () : Actions => {
     const importedActions : FileActions = actionsFromFile;
 
     const processedActions = { "allActions" : importedActions.allActions.map(
-        category => ({"name": category.name, "actions": category.actions.map(
-            action => ({...action, roll : [0, 0, 'neutral'] as RollResult, rollType: 'neutral' as RollType})
+        category => ({"name": category.name, "categoryPower": 0, "actions": category.actions.map(
+            action => ({...action, roll : [1, 1, 'none'] as RollResult, rollType: 'none' as RollType})
         )})
     )}
     console.log(processedActions);
@@ -75,24 +78,20 @@ const extractCategoriesFromFile = () : CategoryNames => {
     return importedActions.allActions.map(category => category.name)
 }
 
-const rollD20 = () => Math.floor(Math.random() * 20) + 1;
+const rollD20 = (): d20Roll => Math.floor(Math.random() * 20) + 1 as d20Roll;
 
-const rollDice = (rollType: RollType) : RollResult => {
-    let rolledValue: RollResult = [0, 0, 'neutral'];
-    switch(rollType){
-        case 'bane':
-            rolledValue = [rollD20(), rollD20(), 'bane'];
-            break;
-        case 'boon':
-            rolledValue = [rollD20(), rollD20(), 'boon'];
-            break;
-        case 'neutral':
-            rolledValue = [rollD20(), 0, 'neutral']
-            break;
-        default:
-            rolledValue = [888, 0, 'neutral']
-    }
-    return rolledValue;
+const rollDice = (categoryPower: number, isSituationalBane: boolean, isSituationalBoon: boolean) : RollResult => {
+
+    if (categoryPower === 1 && isSituationalBane && !isSituationalBoon) return [rollD20(), 1, 'neutral'];
+    if (categoryPower > 0) return [rollD20(), rollD20(), 'boon'];
+
+    if (categoryPower === -1 && !isSituationalBane && isSituationalBoon) return [rollD20(), 1, 'neutral'];
+    if (categoryPower < 0) return [rollD20(), rollD20(), 'bane'];
+
+    if (isSituationalBane && !isSituationalBoon) return [rollD20(), rollD20(), 'bane'];
+    if (!isSituationalBane && isSituationalBoon) return [rollD20(), rollD20(), 'boon'];
+
+    return [rollD20(), 1, 'neutral'];
 }
 
 export const ActionsContextProvider = ({ children } : {children: React.ReactNode}) => {
@@ -108,29 +107,29 @@ export const ActionsContextProvider = ({ children } : {children: React.ReactNode
     // for turning an unstable reference to function (since it is being declared inside of a component)
     // to a stable function reference with useCallback. A minor bit of optimization.
     const handleRoll = useCallback((rolledName: string) => {
+        console.log(`bane: ${isSituationalBane}, boon: ${isSituationalBoon}`)
         const newRolls = actions.allActions.map(category => ({
           name: category.name,
+          categoryPower: category.categoryPower,
           actions: category.actions.map(action => ({
             ...action,
-            roll: action.name === rolledName ? rollDice(action.rollType) : [0, 0, 'neutral'] as RollResult
+            roll: action.name === rolledName ? rollDice(category.categoryPower, isSituationalBane, isSituationalBoon) : [1, 1, 'none'] as RollResult
           }))
         }));
         setActions({"allActions": newRolls});
-      },[actions]);
+      },[actions, isSituationalBane, isSituationalBoon]);
 
-      const handleRollPowerChange = useCallback((rollPower: number, categoryName: string) => {
+      const handleCategoryPowerChange = useCallback((categoryPower: number, categoryName: string) => {
         const newRolls = actions.allActions.map(category => ({
           name: category.name,
-          actions: category.actions.map(action => ({
-            ...action,
-            rollType: categoryName === category.name ? rollPower > 0 ? 'boon' as RollType : rollPower < 0 ? 'bane' : 'neutral' : action.rollType
-          }))
+          actions: category.actions,
+          categoryPower: category.name === categoryName ? categoryPower : category.categoryPower
         }));
         setActions({"allActions": newRolls});
       },[actions]);
 
     return (
-        <ActionsContext.Provider value={{ actions, categories, handleRoll, handleRollPowerChange, isSituationalBane, isSituationalBoon, setIsSituationalBane, setIsSituationalBoon }}>
+        <ActionsContext.Provider value={{ actions, categories, handleRoll, handleCategoryPowerChange, isSituationalBane, isSituationalBoon, setIsSituationalBane, setIsSituationalBoon }}>
             {children}
         </ActionsContext.Provider>
     );

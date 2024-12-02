@@ -25,11 +25,11 @@ export default function TopInfo (){
             <div>
                 <label>Capped:</label>
             </div>
-            <button onClick={(event)=>{setIsSituationalBane(!isSituationalBane)}} > Situational Bane <span className={`dot ${isSituationalBane ? 'filled-bane':''}`}></span> </button>
+            <button onClick={(_)=>{setIsSituationalBane(!isSituationalBane)}} > Situational Bane <span className={`dot ${isSituationalBane ? 'filled-bane':''}`}></span> </button>
                 {/** TODO: DRY out the dot styling. Also, possibly break up this big component into smaller ones? 
                  * {`dot ${rollPower < -2 ? 'filled-bane':''}`}
                 */}
-            <button onClick={(event)=>{setIsSituationalBoon(!isSituationalBoon)}} > Situational Boon <span className={`dot ${isSituationalBoon ? 'filled-boon':''}`}></span> </button>
+            <button onClick={(_)=>{setIsSituationalBoon(!isSituationalBoon)}} > Situational Boon <span className={`dot ${isSituationalBoon ? 'filled-boon':''}`}></span> </button>
         </div>
         <div className='top-right'>
             <div>
